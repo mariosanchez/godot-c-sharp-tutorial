@@ -1,8 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmo1r1wlt120s"]
+[gd_scene load_steps=9 format=3 uid="uid://dmo1r1wlt120s"]
 
 [ext_resource type="Texture2D" uid="uid://dsae7ke7kjrvs" path="res://assets/Court.png" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://ef2b646i046h" path="res://assets/Ball.png" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://d01deco1hota7" path="res://assets/Paddle.png" id="3_1bvp3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
+size = Vector2(1280, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
+size = Vector2(50, 720)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
 
@@ -20,6 +26,32 @@ anchor_mode = 0
 [node name="Court" type="Sprite2D" parent="."]
 texture = ExtResource("1_ig7tw")
 offset = Vector2(640, 360)
+
+[node name="TopWall" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+position = Vector2(640, -25)
+shape = SubResource("RectangleShape2D_h2yge")
+
+[node name="BottomWall" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2(640, 745)
+shape = SubResource("RectangleShape2D_h2yge")
+
+[node name="LeftWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(0, 360)
+shape = SubResource("RectangleShape2D_1bvp3")
+
+[node name="RightWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(1280, 360)
+shape = SubResource("RectangleShape2D_1bvp3")
 
 [node name="Ball" type="Area2D" parent="."]
 position = Vector2(640, 360)
