@@ -1,8 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmo1r1wlt120s"]
+[gd_scene load_steps=13 format=3 uid="uid://dmo1r1wlt120s"]
 
 [ext_resource type="Texture2D" uid="uid://dsae7ke7kjrvs" path="res://assets/Court.png" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://ef2b646i046h" path="res://assets/Ball.png" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://d01deco1hota7" path="res://assets/Paddle.png" id="3_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://chpc70luju4l6" path="res://assets/bounce.mp3" id="3_272bh"]
+[ext_resource type="AudioStream" uid="uid://bieqx6p7ja8dx" path="res://assets/music.mp3" id="4_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://dvl2ld3cb1yg2" path="res://assets/player_score.mp3" id="5_5vw27"]
+[ext_resource type="AudioStream" uid="uid://c5vk7od6pa4mx" path="res://assets/enemy_score.mp3" id="6_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(1280, 50)
@@ -63,6 +67,9 @@ texture = ExtResource("2_h2yge")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
 shape = SubResource("RectangleShape2D_lquwl")
 
+[node name="BounceSound" type="AudioStreamPlayer" parent="Ball"]
+stream = ExtResource("3_272bh")
+
 [node name="Player" type="Area2D" parent="."]
 position = Vector2(80, 360)
 metadata/_edit_group_ = true
@@ -75,6 +82,9 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_7mycd")
 debug_color = Color(0, 0.6, 0.701961, 0.4)
 
+[node name="ScoreSound" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("5_5vw27")
+
 [node name="Enemy" type="Area2D" parent="."]
 position = Vector2(1200, 360)
 metadata/_edit_group_ = true
@@ -84,6 +94,9 @@ texture = ExtResource("3_1bvp3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource("RectangleShape2D_272bh")
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="Enemy"]
+stream = ExtResource("6_kek77")
 
 [node name="PlayeScore" type="Label" parent="."]
 offset_left = 570.0
@@ -106,3 +119,7 @@ offset_bottom = 540.0
 theme_override_font_sizes/normal_font_size = 200
 bbcode_enabled = true
 text = "[center][rainbow][wave amp=50 freq=3]PAUSED[/wave][/rainbow][/center]"
+
+[node name="MainTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_1bvp3")
+autoplay = true
