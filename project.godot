@@ -12,7 +12,7 @@ config_version=5
 
 config/name="HelloGame"
 run/main_scene="uid://dmo1r1wlt120s"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
+
+[dotnet]
+
+project/assembly_name="HelloGame"
 
 [rendering]
 
