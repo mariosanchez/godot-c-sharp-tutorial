@@ -7,6 +7,9 @@ public partial class Wall : Area2D
 
     [Export]
     public Node2D Scorer { get; set; }
+    
+    [Export]
+    public Node2D Scored { get; set; }
 
     public void OnAreaEntered(Area2D area)
     {
@@ -16,6 +19,11 @@ public partial class Wall : Area2D
             if (Scorer is IHasScore scoring)
             {
                 scoring.IncrementScore();
+            }
+            
+            if (Scored is IIsNpc npc)
+            {
+                npc.IncrementDifficulty();
             }
         }
     }

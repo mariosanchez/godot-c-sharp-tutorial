@@ -54,18 +54,20 @@ metadata/_edit_group_ = true
 position = Vector2(640, 745)
 shape = SubResource("RectangleShape2D_h2yge")
 
-[node name="LeftWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer")]
+[node name="LeftWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer", "Scored")]
 script = ExtResource("3_4c57u")
 BallResetDirection = Vector2(1, 0)
 Scorer = NodePath("../Enemy")
+Scored = NodePath("../Player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
 position = Vector2(0, 360)
 shape = SubResource("RectangleShape2D_1bvp3")
 
-[node name="RightWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer")]
+[node name="RightWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer", "Scored")]
 script = ExtResource("3_4c57u")
 Scorer = NodePath("../Player")
+Scored = NodePath("../Enemy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
 position = Vector2(1280, 360)

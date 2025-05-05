@@ -1,7 +1,7 @@
 ﻿using System;
 using Godot;
 
-public partial class Enemy : Area2D, IHasScore
+public partial class Enemy : Area2D, IHasScore, IIsNpc
 {
     [Export]
     private Area2D follow;
@@ -10,12 +10,15 @@ public partial class Enemy : Area2D, IHasScore
     private float difficulty = 0.3f;
 
     public int Score { get; set; }
+    
+    public float DifficultyMultiplier { get; set; } = 1;
 
     [Export]
     public Label ScoreDisplay { get; set; }
 
     public AudioStreamPlayer ScoreSound { get; set; }
-
+    
+    
     public override void _Ready()
     {
         ScoreSound = GetNode<AudioStreamPlayer>("ScoreSound");
@@ -26,7 +29,7 @@ public partial class Enemy : Area2D, IHasScore
         Position = Position with
         {
             // don't leave the play field
-            Y = Math.Clamp(Position.Lerp(follow.Position, difficulty / 10).Y, 16, GetViewportRect().Size.Y - 16)
+            Y = Math.Clamp(Position.Lerp(follow.Position, (difficulty * DifficultyMultiplier) / 10).Y, 16, GetViewportRect().Size.Y - 16)
         };
     }
 
