@@ -1,13 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmo1r1wlt120s"]
+[gd_scene load_steps=18 format=3 uid="uid://dmo1r1wlt120s"]
 
 [ext_resource type="Texture2D" uid="uid://dsae7ke7kjrvs" path="res://assets/Court.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://cws3g1tmgx1i7" path="res://scripts/Ball.cs" id="2_5vw27"]
 [ext_resource type="Texture2D" uid="uid://ef2b646i046h" path="res://assets/Ball.png" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://xnb1fscxv7j0" path="res://scripts/Rail.cs" id="2_kek77"]
 [ext_resource type="Texture2D" uid="uid://d01deco1hota7" path="res://assets/Paddle.png" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://coq5piyj1dqne" path="res://scripts/Wall.cs" id="3_4c57u"]
 [ext_resource type="AudioStream" uid="uid://chpc70luju4l6" path="res://assets/bounce.mp3" id="3_272bh"]
 [ext_resource type="AudioStream" uid="uid://bieqx6p7ja8dx" path="res://assets/music.mp3" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://dvl2ld3cb1yg2" path="res://assets/player_score.mp3" id="5_5vw27"]
 [ext_resource type="AudioStream" uid="uid://c5vk7od6pa4mx" path="res://assets/enemy_score.mp3" id="6_kek77"]
+[ext_resource type="Script" uid="uid://ccjsf2vg1f5kp" path="res://scripts/Player.cs" id="7_dg77c"]
+[ext_resource type="Script" uid="uid://cex1cd3bcyi2f" path="res://scripts/Enemy.cs" id="9_efxa6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(1280, 50)
@@ -33,6 +37,7 @@ texture = ExtResource("1_ig7tw")
 offset = Vector2(640, 360)
 
 [node name="TopWall" type="Area2D" parent="."]
+script = ExtResource("2_kek77")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
@@ -40,19 +45,26 @@ position = Vector2(640, -25)
 shape = SubResource("RectangleShape2D_h2yge")
 
 [node name="BottomWall" type="Area2D" parent="."]
+script = ExtResource("2_kek77")
+bounceDirection = -1
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
 position = Vector2(640, 745)
 shape = SubResource("RectangleShape2D_h2yge")
 
-[node name="LeftWall" type="Area2D" parent="."]
+[node name="LeftWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer")]
+script = ExtResource("3_4c57u")
+BallResetDirection = Vector2(1, 0)
+Scorer = NodePath("../Enemy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
 position = Vector2(0, 360)
 shape = SubResource("RectangleShape2D_1bvp3")
 
-[node name="RightWall" type="Area2D" parent="."]
+[node name="RightWall" type="Area2D" parent="." node_paths=PackedStringArray("Scorer")]
+script = ExtResource("3_4c57u")
+Scorer = NodePath("../Player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
 position = Vector2(1280, 360)
@@ -72,8 +84,10 @@ shape = SubResource("RectangleShape2D_lquwl")
 [node name="BounceSound" type="AudioStreamPlayer" parent="Ball"]
 stream = ExtResource("3_272bh")
 
-[node name="Player" type="Area2D" parent="."]
+[node name="Player" type="Area2D" parent="." node_paths=PackedStringArray("ScoreDisplay")]
 position = Vector2(80, 360)
+script = ExtResource("7_dg77c")
+ScoreDisplay = NodePath("../PlayeScore")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
@@ -87,8 +101,11 @@ debug_color = Color(0, 0.6, 0.701961, 0.4)
 [node name="ScoreSound" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("5_5vw27")
 
-[node name="Enemy" type="Area2D" parent="."]
+[node name="Enemy" type="Area2D" parent="." node_paths=PackedStringArray("follow", "ScoreDisplay")]
 position = Vector2(1200, 360)
+script = ExtResource("9_efxa6")
+follow = NodePath("../Ball")
+ScoreDisplay = NodePath("../EnemyScore")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy"]
@@ -125,3 +142,11 @@ text = "[center][rainbow][wave amp=50 freq=3]PAUSED[/wave][/rainbow][/center]"
 [node name="MainTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_1bvp3")
 autoplay = true
+
+[connection signal="area_entered" from="TopWall" to="TopWall" method="OnAreaEntered"]
+[connection signal="child_entered_tree" from="TopWall/CollisionShape2D" to="TopWall/CollisionShape2D" method="OnAreaEntered"]
+[connection signal="area_entered" from="BottomWall" to="BottomWall" method="OnAreaEntered"]
+[connection signal="area_entered" from="LeftWall" to="LeftWall" method="OnAreaEntered"]
+[connection signal="area_entered" from="RightWall" to="RightWall" method="OnAreaEntered"]
+[connection signal="area_entered" from="Player" to="Player" method="OnAreaEntered"]
+[connection signal="area_entered" from="Enemy" to="Enemy" method="OnAreaEntered"]

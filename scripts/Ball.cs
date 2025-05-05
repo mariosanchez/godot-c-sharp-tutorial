@@ -11,7 +11,7 @@ public partial class Ball : Area2D
 
     public override void _Ready()
     {
-        bounceSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+        bounceSound = GetNode<AudioStreamPlayer>("BounceSound");
     }
 
     public override void _PhysicsProcess(double delta)
